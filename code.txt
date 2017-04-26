@@ -5,6 +5,152 @@ head yelp_academic_dataset_business.json
 import ijson
 
 filename = "md_traffic.json"
+
+business.json
+categories: "Food", "Restaurants"
+
+
+
+//--------------------------------------------------
+//------------ clean / organize data --------------   
+//--------------------------------------------------
+
 with open(filename, 'r') as f:
     objects = ijson.items(f)
     columns = list(objects)
+    
+
+
+//------------- only keep data from neighborhoods we're interested in ------------------
+    
+   
+
+// --- To Do: 1.) create .txt files for reviews neighborhoods...
+//                      -- parse through words by commas or spaces
+                       
+
+
+
+//-----------------------------------------------------------
+//------------- Creating Timeline View ----------------------
+//-----------------------------------------------------------
+
+// uses median housing data from zillow from either county/neighborhood to create a timeline of median house price from
+        // yearX-yearY
+    
+// if user clicks on neighborhood x:
+    // call function i.e:   timelineCreated( countyX )
+
+
+// if user clicks on neighborhood y:
+    // call function i.e:   timelineCreated( countyY )
+
+
+// drawTimeline( string variable of county passed )
+    
+    // what do we want timeline to look like?  
+           -- segmented line graph with points representing each year...?
+           
+    
+    
+
+//----------------------- create list of keywords by year-------------------------------
+// declare 14 empty arrays that can hold 350 words, if data is redundant we can collapse year variables to be every 2 years
+
+    // debugging: do we have data for each neighborhood / each year?
+
+// for (neighborhood):
+    // create array of top 350 words by year (2001-15?)
+   
+   
+
+//---------------------------------------
+// for creating WordCloud:
+//----------------------------------------
+
+//-------------------Selecting words----------------------------
+//the text file to be opened should be updated by conditional statements (i.e: if user selects 2007, top words updated)
+
+    // having one file that is updated seems more efficient than having multiple files
+        // another idea: we could tag each keyword with dates for easy parsing (or have multiple lists in memory but
+        // there's probably going to be a lot of repeat words)
+        
+        
+        
+
+// -----------------if-function for updating/re-writing file -------------
+
+// if user clicks on timeline (segment?)
+
+    // write list of keywords based on year to topWords file
+    
+// --------------
+          
+with open("reviewTopwords.txt") as f:
+    lines f.readlines()                                                                            
+text = "".join(lines)   
+
+
+//------------------Word Weights-----------------------------
+//determining the weight of each word using CountVectorizer (package that needs to be downloaded)
+
+cv = CountVectorizer(min_df=0, charset_error="ignore",                                               
+                         stop_words="english", max_features=350)  // stopwords = words to ignore
+                                                                  // how many words do we want to include
+                         
+counts = cv.fit_transform([text]).toarray().ravel()                                                  
+words = np.array(cv.get_feature_names()) 
+# normalize                                                                                                                                             
+counts = counts / float(counts.max())
+
+
+
+
+
+//----------------------Alice Word Cloud Example (modified for our program)------------------------
+// HOWEVER, I don't think this program accounts for the frequency of each word...
+
+from os import path
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+
+from wordcloud import WordCloud, STOPWORDS
+
+d = path.dirname(__file__)
+
+# Read the whole text.
+text = open(path.join(d, 'topWords.txt')).read()  
+
+# read the mask image
+# taken from
+# http://www.stencilry.org/stencils/movies/alice%20in%20wonderland/255fk.jpg (REPLACE)
+county_mask = np.array(Image.open(path.join(d, "county_mask.png"))) # we can pass a string of which country pic to use
+                                                                    # depending on which neighborhood the user selects...
+
+stopwords = set(STOPWORDS)
+stopwords.add("said")    # idk why this is necessary but ok
+
+wc = WordCloud(background_color="white", max_words=300, mask=county_mask,
+               stopwords=stopwords)
+               
+# generate word cloud
+wc.generate(text)
+
+# store to file
+wc.to_file(path.join(d, "county.png")) 
+
+# show
+plt.imshow(wc, interpolation='bilinear')
+plt.axis("off")
+plt.figure()
+plt.imshow(county_mask, cmap=plt.cm.gray, interpolation='bilinear')
+plt.axis("off")
+plt.show()
+
+
+
+
+
+
+
