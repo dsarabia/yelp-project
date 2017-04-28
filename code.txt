@@ -51,6 +51,10 @@ with open(filename, 'r') as f:
     // what do we want timeline to look like?  
            -- segmented line graph with points representing each year...?
            
+           
+           
+           
+ 
     
     
 
@@ -89,6 +93,10 @@ with open(filename, 'r') as f:
 with open("reviewTopwords.txt") as f:
     lines f.readlines()                                                                            
 text = "".join(lines)   
+
+
+
+
 
 
 //------------------Word Weights-----------------------------
