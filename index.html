@@ -11,6 +11,7 @@
         </div>
         <script src="http://d3js.org/d3.v3.min.js"></script>
         <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js"></script>
+        <script src="https://gist.githubusercontent.com/helenedraux/075971f9d2ef7999364ddd84daacf83f/raw/bed58df422a8da5e8608a9bdebf3e7bf2e214451/removeStopWords.js"></script>
         <script>
             
             //Simple animated example of d3-cloud - https://github.com/jasondavies/d3-cloud
@@ -166,6 +167,7 @@
                           $.ajax({url: "yelp_data.json", success: function(data){
                                  words = data['Squirrel Hill'].text
                                  getFrequency(words);
+                                 removeStopWords(words);
                                  //console.log(words);
                                  wordCloud('body').update(words.replace(/[!\.,:;\?]/g, '')
                                                           .split(' ')
